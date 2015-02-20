@@ -28,11 +28,11 @@ h2 {
   font-size: 12px;
 }
 
-#csrform {
+#certform {
   padding-bottom: 15px;
   border-bottom: 1px dotted #8c8c8c;
 }
-#csrform input[type=text] {
+#certform input[type=text] {
   color:      #000;
   -moz-border-radius: 2px;
   border-radius:      2px;
@@ -41,17 +41,17 @@ h2 {
   margin-left:15px;
   padding:    3px;
 }
-#csrform ol {
+#certform ol {
   padding:    0;
   margin:     0;
 }
-#csrform li {
+#certform li {
   padding:    5px;
   margin:     0;
   margin-left:20px;
   list-style: none;
 }
-#csrform label {
+#certform label {
   display:    block;
   font-weight: bold;
   text-align: right;
@@ -59,7 +59,7 @@ h2 {
   width:      200px;
   float:      left;
 }
-#csrform .small {
+#certform .small {
   color:      #666666;
   display:    block;
   font-size:  11px;
@@ -67,7 +67,7 @@ h2 {
   text-align: right;
   width:      200px;
 }
-#csrform input[type=submit] {
+#certform input[type=submit] {
   width:  400px;
   clear:  both;
   border: 1px solid #8B0000;
@@ -85,7 +85,7 @@ h2 {
   box-shadow: 0 0 5px #F22233;
 }
 
-#csr {
+#certificate {
   margin:     15px 60px;
   padding:    20px;
 }

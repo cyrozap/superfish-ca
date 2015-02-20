@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<form id="csrform" action="" method="POST">
+<form id="certform" action="" method="POST">
   <ol>
     <li>
       <label for="C">Country:<span class="small">Two letter abbreviation</span></label>
@@ -28,9 +28,9 @@
     </li>
   </ol>
   <br/>
-  <input type="submit" value="Generate CSR" />
+  <input type="submit" value="Generate Signed Certificate" />
 </form>
 <div id="postgenerate">
-  <textarea id="csr" rows="47" cols="65" readonly="readonly"></textarea>
+  <textarea id="certificate" rows="47" cols="65" readonly="readonly"></textarea>
 </div> <!-- End postgenerate div -->
 {% endblock %}

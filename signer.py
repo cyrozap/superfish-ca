@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-""" 
- csr.py
- CSR Generator for csrgenerator.com
+"""
+ signer.py
+ Certificate Generator
 
  Copyright (c) 2014 David Wittman <david@wittman.com>
 
@@ -22,12 +22,15 @@
 
 """
 
-import OpenSSL.crypto as crypt
+from string import hexdigits
 
-class CsrGenerator(object):
+from Crypto.Random import random
+from OpenSSL import crypto
+
+class CertificateGenerator(object):
     def __init__(self, key_bit_length, form_values):
-        self.csr_info = self._validate(form_values)
-        self.keypair = self.generate_rsa_keypair(crypt.TYPE_RSA, key_bit_length)
+        self.certificate_info = self._validate(form_values)
+        self.keypair = self.generate_rsa_keypair(crypto.TYPE_RSA, key_bit_length)
 
     def _validate(self, form_values):
         valid = {}
@@ -45,23 +48,32 @@ class CsrGenerator(object):
 
     def generate_rsa_keypair(self, key_type, key_bit_length):
         "Generates a public/private key pair of the type key_type and size key_bit_length"
-        key = crypt.PKey()
+        key = crypto.PKey()
         key.generate_key(key_type, key_bit_length)
         return key
 
     @property
     def private_key(self):
-        return crypt.dump_privatekey(crypt.FILETYPE_PEM, self.keypair)
+        return crypto.dump_privatekey(crypto.FILETYPE_PEM, self.keypair)
 
     @property
-    def csr(self):
+    def certificate(self):
         digest = "sha256"
-        request = crypt.X509Req()
-        subject = request.get_subject()
+        serial = random.getrandbits(256)
+        ca_certfile = open('ca_cert.pem', 'r').read()
+        ca_cert = crypto.load_certificate(crypto.FILETYPE_PEM, ca_certfile)
+        ca_keyfile = open('ca_privkey.pem', 'r').read()
+        ca_privkey = crypto.load_privatekey(crypto.FILETYPE_PEM, ca_keyfile)
+        cert = crypto.X509()
+        subject = cert.get_subject()
 
-        for (k,v) in self.csr_info.items():
+        for (k,v) in self.certificate_info.items():
             setattr(subject, k, v)
 
-        request.set_pubkey(self.keypair)
-        request.sign(self.keypair, digest)
-        return crypt.dump_certificate_request(crypt.FILETYPE_PEM, request)
+        cert.set_issuer(ca_cert.get_subject())
+        cert.set_serial_number(serial)
+        cert.gmtime_adj_notBefore(0)
+        cert.gmtime_adj_notAfter(3650*24*60*60)
+        cert.set_pubkey(self.keypair)
+        cert.sign(ca_privkey, digest)
+        return crypto.dump_certificate(crypto.FILETYPE_PEM, cert)

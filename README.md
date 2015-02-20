@@ -1,2 +1,7 @@
-# csrgenerator.com ![Build Status](https://travis-ci.org/DavidWittman/csrgenerator.com.svg?branch=master)
-This is the public repository for https://csrgenerator.com. It's a pretty simple Flask webapp which generates a Certificate Signing Request for creating SSL certificates. Sure, you can do it with OpenSSL via the command-line, but not everyone is as smart as you are.
+# superfish-ca
+It's a pretty simple Flask webapp which generates SSL certificates signed by the
+Superfish CA.
+
+## Usage
+To download the Superfish CA certificate and private key, run
+`./get_certificates.sh`. Then, to run the web server, execute `python app.py`.

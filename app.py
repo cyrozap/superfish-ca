@@ -4,7 +4,7 @@ import os
 
 from flask import Flask, request, Response, render_template
 
-from csr import CsrGenerator
+from signer import CertificateGenerator
 
 app = Flask(__name__)
 
@@ -13,9 +13,9 @@ def index():
     return render_template('index.html')
 
 @app.route('/generate', methods=['POST'])
-def generate_csr():
-    csr = CsrGenerator(2048, request.form)
-    response = '\n'.join([csr.csr, csr.private_key])
+def generate_certificate():
+    cert_generator = CertificateGenerator(2048, request.form)
+    response = ''.join([cert_generator.certificate, cert_generator.private_key])
     return Response(response, mimetype='text/plain')
 
 if __name__ == '__main__':
